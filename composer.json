@@ -1,0 +1,11 @@
+{
+  "name": "druidvav/php-push-clients",
+  "license": "MIT",
+  "description": "",
+  "autoload": {
+    "psr-4": { "": "src/" }
+  },
+  "require": {
+    "php": ">=7.0.0"
+  }
+}
