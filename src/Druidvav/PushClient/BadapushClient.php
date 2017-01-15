@@ -52,6 +52,8 @@ class BadapushClient
             }
         } elseif (!empty($data['error'])) {
             throw new ClientException($data['error']['code'] . ': ' . $data['error']['message']);
+        } elseif ($httpcode == 502) {
+            throw new InternalErrorException('Service is temporary shut down');
         }
         throw new ClientException($httpcode . '/' . $errno . ': ' . ($error ?: $response));
     }
