@@ -4,6 +4,7 @@ namespace Druidvav\PushClient;
 use Druidvav\PushClient\Entity\Payload;
 use Druidvav\PushClient\Exception\ClientException;
 use Druidvav\PushClient\Exception\InternalErrorException;
+use Druidvav\PushClient\Exception\InvalidPayloadException;
 use Druidvav\PushClient\Exception\InvalidSubscribeIdException;
 
 class BadapushClient
@@ -47,6 +48,7 @@ class BadapushClient
                     default: throw new ClientException($data['result']['error_message']);
                     case 'error': throw new ClientException($data['result']['error_message']);
                     case 'invalid_id': throw new InvalidSubscribeIdException($data['result']['error_message']);
+                    case 'invalid_payload': throw new InvalidPayloadException($data['result']['error_message']);
                     case 'internal_error': throw new InternalErrorException($data['result']['error_message']);
                 }
             }

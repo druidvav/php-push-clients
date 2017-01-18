@@ -4,6 +4,7 @@ namespace Druidvav\PushClient;
 use Druidvav\PushClient\Entity\Payload;
 use Druidvav\PushClient\Exception\GcmClientException;
 use Druidvav\PushClient\Exception\InternalErrorException;
+use Druidvav\PushClient\Exception\InvalidPayloadException;
 use Druidvav\PushClient\Exception\InvalidSubscribeIdException;
 
 class GcmClient
@@ -49,6 +50,8 @@ class GcmClient
                     throw new InternalErrorException($error);
                 } else if (preg_match('/(NotRegistered)/i', $error)) {
                     throw new InvalidSubscribeIdException($error);
+                } else if (preg_match('/(MessageTooBig)/i', $error)) {
+                    throw new InvalidPayloadException($error);
                 } else {
                     throw new GcmClientException($error);
                 }
