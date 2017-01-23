@@ -25,7 +25,8 @@ class BadapushClient
             'method' => 'sendPayload',
             'params' => [
                 'device_id' => $payload->getDeviceId(),
-                'payload' => $payload->getPayload()
+                'payload' => $payload->getPayload(),
+                'is_development' => $payload->isDevelopment()
             ]
         ]));
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
