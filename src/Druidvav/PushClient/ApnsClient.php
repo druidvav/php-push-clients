@@ -36,6 +36,8 @@ class ApnsClient
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($ch);
         $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $errno = curl_errno($ch);
+        $error = curl_error($ch);
         curl_close($ch);
         if ($httpcode == 200) {
             return true;
@@ -48,7 +50,7 @@ class ApnsClient
                     throw new ApnsClientException($data['reason']);
                 }
             }
-            throw new ApnsClientException('Invalid response');
+            throw new ApnsClientException($httpcode . '/' . $errno . ': ' . ($error ?: $response));
         }
     }
 

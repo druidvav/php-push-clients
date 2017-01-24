@@ -60,7 +60,7 @@ class GcmClient
             } else {
                 throw new GcmClientException($response);
             }
-        } elseif ($httpcode == 401 || $httpcode == 500) {
+        } elseif ($httpcode == 401 || $httpcode == 500 || $httpcode == 504) {
             throw new InternalErrorException('HTTP ' . $httpcode);
         } elseif (preg_match('/( Unknown SSL protocol error)/i', $error)) {
             throw new InternalErrorException($error);
