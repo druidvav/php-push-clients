@@ -28,6 +28,8 @@ class ApnsClient
     public function sendPayload(Payload $payload)
     {
         $ch = curl_init($this->getApiUrl($payload->isDevelopment()) . $payload->getDeviceId());
+        curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload->getPayload()));
         curl_setopt($ch, CURLOPT_HTTP_VERSION, 3);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [ "apns-topic: {$this->bundleId}" ]);

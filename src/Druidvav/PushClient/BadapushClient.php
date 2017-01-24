@@ -20,6 +20,8 @@ class BadapushClient
     public function sendPayload(Payload $payload)
     {
         $ch = curl_init($this->apiUrl);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
             'id' => 1,
             'method' => 'sendPayload',
@@ -57,6 +59,8 @@ class BadapushClient
             throw new ClientException($data['error']['code'] . ': ' . $data['error']['message']);
         } elseif ($httpcode == 502) {
             throw new InternalErrorException('Service is temporary shut down');
+        } elseif ($httpcode == 504) {
+            throw new InternalErrorException('Service is temporary down');
         }
         throw new ClientException($httpcode . '/' . $errno . ': ' . ($error ?: $response));
     }

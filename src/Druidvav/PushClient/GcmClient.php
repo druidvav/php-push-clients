@@ -30,6 +30,8 @@ class GcmClient
         ]);
 
         $ch = curl_init($this->apiUrl);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             'Authorization: key=' . $this->apiKey,
