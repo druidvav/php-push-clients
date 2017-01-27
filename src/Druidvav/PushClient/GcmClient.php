@@ -64,7 +64,9 @@ class GcmClient
             }
         } elseif ($httpcode == 401 || $httpcode == 500 || $httpcode == 504) {
             throw new InternalErrorException('HTTP ' . $httpcode);
-        } elseif (preg_match('/( Unknown SSL protocol error)/i', $error)) {
+        } elseif ($errno == 28) {
+            throw new InternalErrorException('TIMEOUT ' . $error);
+        } elseif (preg_match('/(Unknown SSL protocol error)/i', $error)) {
             throw new InternalErrorException($error);
         } else {
             throw new GcmClientException($httpcode . '/' . $errno . ': ' . ($error ?: $response));

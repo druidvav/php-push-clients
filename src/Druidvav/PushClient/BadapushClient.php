@@ -2,6 +2,7 @@
 namespace Druidvav\PushClient;
 
 use Druidvav\PushClient\Entity\Payload;
+use Druidvav\PushClient\Exception\BadapushClientException;
 use Druidvav\PushClient\Exception\ClientException;
 use Druidvav\PushClient\Exception\InternalErrorException;
 use Druidvav\PushClient\Exception\InvalidPayloadException;
@@ -56,12 +57,14 @@ class BadapushClient
                 }
             }
         } elseif (!empty($data['error'])) {
-            throw new ClientException($data['error']['code'] . ': ' . $data['error']['message']);
+            throw new BadapushClientException($data['error']['code'] . ': ' . $data['error']['message']);
         } elseif ($httpcode == 502) {
             throw new InternalErrorException('Service is temporary shut down');
         } elseif ($httpcode == 504) {
             throw new InternalErrorException('Service is temporary down');
+        } elseif ($errno == 28) {
+            throw new InternalErrorException('TIMEOUT ' . $error);
         }
-        throw new ClientException($httpcode . '/' . $errno . ': ' . ($error ?: $response));
+        throw new BadapushClientException($httpcode . '/' . $errno . ': ' . ($error ?: $response));
     }
 }
