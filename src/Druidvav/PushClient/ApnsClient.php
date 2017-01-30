@@ -3,6 +3,7 @@ namespace Druidvav\PushClient;
 
 use Druidvav\PushClient\Entity\Payload;
 use Druidvav\PushClient\Exception\ApnsClientException;
+use Druidvav\PushClient\Exception\InternalErrorException;
 use Druidvav\PushClient\Exception\InvalidSubscribeIdException;
 
 class ApnsClient
@@ -43,6 +44,8 @@ class ApnsClient
         curl_close($ch);
         if ($httpcode == 200) {
             return true;
+        } elseif ($errno == 28) {
+            throw new InternalErrorException('TIMEOUT ' . $error);
         } else {
             $data = json_decode($response, true);
             if (!empty($data) && $data['reason']) {

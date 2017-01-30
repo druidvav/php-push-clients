@@ -22,6 +22,16 @@ class GcmClient
         return $this->send($payload->getDeviceId(), $payload->getPayload());
     }
 
+    /**
+     * @param $registrationId
+     * @param $data
+     * @param array $options
+     * @return string
+     * @throws GcmClientException
+     * @throws InternalErrorException
+     * @throws InvalidPayloadException
+     * @throws InvalidSubscribeIdException
+     */
     public function send($registrationId, $data, array $options = array())
     {
         $payload = array_merge($options, [
