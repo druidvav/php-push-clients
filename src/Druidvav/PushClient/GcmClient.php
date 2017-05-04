@@ -72,7 +72,7 @@ class GcmClient
             } else {
                 throw new GcmClientException($response);
             }
-        } elseif ($httpcode == 401 || $httpcode == 500 || $httpcode == 504) {
+        } elseif ($httpcode == 401 || $httpcode == 500 || $httpcode == 502 || $httpcode == 504) {
             throw new InternalErrorException('HTTP ' . $httpcode);
         } elseif ($errno == 28) {
             throw new InternalErrorException('TIMEOUT ' . $error);
