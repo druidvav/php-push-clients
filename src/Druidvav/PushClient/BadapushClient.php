@@ -11,6 +11,7 @@ use Druidvav\PushClient\Exception\InvalidSubscribeIdException;
 class BadapushClient
 {
     protected $apiUrl = 'http://badapush.ru/api/v1/jsonrpc';
+    protected $method = 'sendPayload';
     protected $apiKey;
 
     public function __construct($apiKey)
@@ -25,7 +26,7 @@ class BadapushClient
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
             'id' => 1,
-            'method' => 'sendPayload',
+            'method' => $this->method,
             'params' => [
                 'device_id' => $payload->getDeviceId(),
                 'payload' => $payload->getPayload(),
