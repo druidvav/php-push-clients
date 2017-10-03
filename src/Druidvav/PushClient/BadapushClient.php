@@ -47,7 +47,7 @@ class BadapushClient
         $data = json_decode($response, true);
         if (!empty($data['result']['result'])) {
             if ($data['result']['result'] == 'ok') {
-                return $data['result']['response'];
+                return !empty($data['result']['response']) ? $data['result']['response'] : 'ok';
             } elseif ($data['result']['result'] == 'error') {
                 switch ($data['result']['error_code']) {
                     default: throw new ClientException($data['result']['error_message']);
