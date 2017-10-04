@@ -9,6 +9,12 @@ class BadapushQueueClient extends BadapushClient
 {
     protected $method = 'enqueuePayload';
 
+    /**
+     * @param int $fromId
+     * @return Message[]
+     * @throws BadapushClientException
+     * @throws InternalErrorException
+     */
     public function retrieveErrors($fromId = 0)
     {
         $ch = curl_init($this->apiUrl);
