@@ -10,6 +10,7 @@ class Payload
     protected $deviceId;
     protected $payload;
     protected $isDevelopment;
+    protected $externalId;
 
     public function __construct($deviceId = '', $payload = [ ], $isDevelopment = false)
     {
@@ -73,5 +74,21 @@ class Payload
     public function setDeviceId($deviceId)
     {
         $this->deviceId = $deviceId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getExternalId()
+    {
+        return $this->externalId;
+    }
+
+    /**
+     * @param string $externalId
+     */
+    public function setExternalId($externalId)
+    {
+        $this->externalId = $externalId;
     }
 }
