@@ -3,7 +3,9 @@ namespace Druidvav\PushClient\Exception;
 
 class ClientException extends \Exception
 {
-    protected $type = 'error';
+    const TYPE = 'error';
+
+    protected $type = self::TYPE;
 
     public function getErrorType()
     {

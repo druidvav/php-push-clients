@@ -30,7 +30,8 @@ class BadapushClient
             'params' => [
                 'device_id' => $payload->getDeviceId(),
                 'payload' => $payload->getPayload(),
-                'is_development' => $payload->isDevelopment()
+                'is_development' => $payload->isDevelopment(),
+                'external_id' => $payload->getExternalId()
             ]
         ]));
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
@@ -51,10 +52,10 @@ class BadapushClient
             } elseif ($data['result']['result'] == 'error') {
                 switch ($data['result']['error_code']) {
                     default: throw new ClientException($data['result']['error_message']);
-                    case 'error': throw new ClientException($data['result']['error_message']);
-                    case 'invalid_id': throw new InvalidSubscribeIdException($data['result']['error_message']);
-                    case 'invalid_payload': throw new InvalidPayloadException($data['result']['error_message']);
-                    case 'internal_error': throw new InternalErrorException($data['result']['error_message']);
+                    case ClientException::TYPE: throw new ClientException($data['result']['error_message']);
+                    case InvalidSubscribeIdException::TYPE: throw new InvalidSubscribeIdException($data['result']['error_message']);
+                    case InvalidPayloadException::TYPE: throw new InvalidPayloadException($data['result']['error_message']);
+                    case InternalErrorException::TYPE: throw new InternalErrorException($data['result']['error_message']);
                 }
             }
         } elseif (!empty($data['error'])) {

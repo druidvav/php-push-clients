@@ -1,6 +1,7 @@
 <?php
 namespace Druidvav\PushClient;
 
+use Druidvav\PushClient\Entity\Message;
 use Druidvav\PushClient\Exception\BadapushClientException;
 use Druidvav\PushClient\Exception\InternalErrorException;
 
@@ -32,7 +33,11 @@ class BadapushQueueClient extends BadapushClient
         $data = json_decode($response, true);
         if (!empty($data['result']['result'])) {
             if ($data['result']['result'] == 'ok') {
-                return $data['result']['list'];
+                $response = [ ];
+                foreach ($data['result']['list'] as $row) {
+                    $response[] = new Message($row);
+                }
+                return $response;
             } elseif ($data['result']['result'] == 'error') {
                 throw new BadapushClientException($data['result']['error_message']);
             }
