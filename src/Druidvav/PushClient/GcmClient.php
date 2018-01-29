@@ -60,7 +60,7 @@ class GcmClient
                 $error = $data['results'][0]['error'];
                 if (preg_match('/(InternalServerError)/i', $error)) {
                     throw new InternalErrorException($error);
-                } else if (preg_match('/(NotRegistered)/i', $error)) {
+                } else if (preg_match('/(NotRegistered|MismatchSenderId)/i', $error)) {
                     throw new InvalidSubscribeIdException($error);
                 } else if (preg_match('/(MessageTooBig)/i', $error)) {
                     throw new InvalidPayloadException($error);
