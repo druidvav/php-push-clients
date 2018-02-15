@@ -19,6 +19,15 @@ class BadapushClient
         $this->apiKey = $apiKey;
     }
 
+    /**
+     * @param Payload $payload
+     * @return string
+     * @throws BadapushClientException
+     * @throws ClientException
+     * @throws InternalErrorException
+     * @throws InvalidPayloadException
+     * @throws InvalidSubscribeIdException
+     */
     public function sendPayload(Payload $payload)
     {
         $ch = curl_init($this->apiUrl);
