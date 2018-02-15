@@ -7,7 +7,7 @@ use Druidvav\PushClient\Exception\InternalErrorException;
 
 class BadapushQueueClient extends BadapushClient
 {
-    protected $method = 'enqueuePayload';
+    protected $method = 'payload.enqueue';
 
     /**
      * @param int $fromId
@@ -22,7 +22,7 @@ class BadapushQueueClient extends BadapushClient
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
             'id' => 1,
-            'method' => 'getQueueErrors',
+            'method' => 'payload.getMessages',
             'params' => [ 'from' => $fromId ]
         ]));
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
