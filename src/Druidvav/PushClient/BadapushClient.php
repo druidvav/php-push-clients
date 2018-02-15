@@ -1,6 +1,7 @@
 <?php
 namespace Druidvav\PushClient;
 
+use Druidvav\PushClient\Entity\Message;
 use Druidvav\PushClient\Entity\Payload;
 use Druidvav\PushClient\Exception\BadapushClientException;
 use Druidvav\PushClient\Exception\ClientException;
@@ -78,7 +79,8 @@ class BadapushClient
         }
         throw new BadapushClientException($httpcode . '/' . $errno . ': ' . ($error ?: $response));
     }
-
+    
+    /** @noinspection PhpDocSignatureInspection */
     /**
      * @param int $fromId
      * @return array|Message[]
@@ -126,7 +128,7 @@ class BadapushClient
         } elseif ($errno == 28) {
             throw new InternalErrorException('TIMEOUT ' . $error);
         }
-        throw new BadapushClientException($httpcode . '/' . $errno . ': ' . ($error ?: $response));
+        throw new BadapushClientException($httpcode . '/' . $errno . ': ' . ($error ?: $responseData));
     }
 
     /**
