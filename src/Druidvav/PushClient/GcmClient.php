@@ -39,6 +39,10 @@ class GcmClient
             'data' => $data
         ]);
 
+        if ($registrationId == 'BLACKLISTED') {
+            throw new InvalidSubscribeIdException('BLACKLISTED');
+        }
+
         $ch = curl_init($this->apiUrl);
         curl_setopt($ch, CURLOPT_TIMEOUT, 15);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
