@@ -9,7 +9,7 @@ use Druidvav\PushClient\Exception\InvalidSubscribeIdException;
 
 class GcmClient
 {
-    protected $apiUrl = 'https://android.googleapis.com/gcm/send';
+    const GCM_API_URL = 'https://fcm.googleapis.com/fcm/send';
     protected $apiKey;
 
     public function __construct($apiKey)
@@ -17,36 +17,45 @@ class GcmClient
         $this->apiKey = $apiKey;
     }
 
-    public function sendPayload(Payload $payload)
-    {
-        return $this->send($payload->getDeviceId(), $payload->getPayload());
-    }
-
     /**
-     * @param $registrationId
-     * @param $data
-     * @param array $options
+     * @param Payload $payload
      * @return string
      * @throws GcmClientException
      * @throws InternalErrorException
      * @throws InvalidPayloadException
      * @throws InvalidSubscribeIdException
      */
-    public function send($registrationId, $data, array $options = array())
+    public function sendPayload(Payload $payload)
     {
-        $payload = array_merge($options, [
-            'to' => $registrationId,
-            'data' => $data
-        ]);
-
-        if ($registrationId == 'BLACKLISTED') {
+        if ($payload->getDeviceId() == 'BLACKLISTED') {
             throw new InvalidSubscribeIdException('BLACKLISTED');
         }
+        $payloadData = $payload->getPayload();
+        if (array_key_exists('data', $payloadData) || array_key_exists('notification', $payloadData)) {
+            $payloadData['to'] = $payload->getDeviceId();
+            return $this->send($payloadData);
+        } else {
+            return $this->send([
+                'to' => $payload->getDeviceId(),
+                'data' => $payloadData
+            ]);
+        }
+    }
 
-        $ch = curl_init($this->apiUrl);
+    /**
+     * @param $data
+     * @return string
+     * @throws GcmClientException
+     * @throws InternalErrorException
+     * @throws InvalidPayloadException
+     * @throws InvalidSubscribeIdException
+     */
+    protected function send($data)
+    {
+        $ch = curl_init(self::GCM_API_URL);
         curl_setopt($ch, CURLOPT_TIMEOUT, 15);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             'Authorization: key=' . $this->apiKey,
             'Content-Type: application/json',
@@ -85,5 +94,6 @@ class GcmClient
         } else {
             throw new GcmClientException($httpcode . '/' . $errno . ': ' . ($error ?: $response));
         }
+        return 'ok';
     }
 }
