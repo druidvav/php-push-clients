@@ -11,13 +11,18 @@ use Druidvav\PushClient\Exception\InvalidSubscribeIdException;
 
 class BadapushClient
 {
-    protected $apiUrl = 'http://badapush.ru/api/v2/jsonrpc';
+    protected $apiUrl;
     protected $method = 'payload.send';
     protected $apiKey;
 
-    public function __construct($apiKey)
+    public function __construct($apiKey, $apiUrl = null)
     {
         $this->apiKey = $apiKey;
+        if (!$apiUrl) {
+            $this->apiUrl = 'http://badapush.ru/api/v2/jsonrpc';
+        } else {
+            $this->apiUrl = $apiUrl;
+        }
     }
 
     /**
