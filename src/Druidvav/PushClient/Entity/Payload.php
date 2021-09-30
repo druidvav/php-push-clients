@@ -6,7 +6,7 @@ class Payload
     protected string $deviceId;
     protected array $payload;
     protected bool $isDevelopment;
-    protected string $externalId;
+    protected ?string $externalId;
 
     public function __construct(string $deviceId = '', array $payload = [ ], bool $isDevelopment = false)
     {
@@ -50,12 +50,12 @@ class Payload
         $this->deviceId = $deviceId;
     }
 
-    public function getExternalId(): string
+    public function getExternalId(): ?string
     {
         return $this->externalId;
     }
 
-    public function setExternalId(string $externalId): void
+    public function setExternalId(?string $externalId): void
     {
         $this->externalId = $externalId;
     }
