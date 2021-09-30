@@ -25,7 +25,7 @@ class GcmClient
      * @throws InvalidPayloadException
      * @throws InvalidSubscribeIdException
      */
-    public function sendPayload(Payload $payload)
+    public function sendPayload(Payload $payload): string
     {
         if ($payload->getDeviceId() == 'BLACKLISTED') {
             throw new InvalidSubscribeIdException('BLACKLISTED');
@@ -50,7 +50,7 @@ class GcmClient
      * @throws InvalidPayloadException
      * @throws InvalidSubscribeIdException
      */
-    protected function send($data)
+    protected function send($data): string
     {
         $ch = curl_init(self::GCM_API_URL);
         curl_setopt($ch, CURLOPT_TIMEOUT, 15);
@@ -94,6 +94,5 @@ class GcmClient
         } else {
             throw new GcmClientException($httpcode . '/' . $errno . ': ' . ($error ?: $response));
         }
-        return 'ok';
     }
 }

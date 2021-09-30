@@ -1,93 +1,61 @@
 <?php
 namespace Druidvav\PushClient\Entity;
 
-use Druidvav\PushClient\Exception\GcmClientException;
-use Druidvav\PushClient\Exception\InternalErrorException;
-use Druidvav\PushClient\Exception\InvalidSubscribeIdException;
-
 class Payload
 {
-    protected $deviceId;
-    protected $payload;
-    protected $isDevelopment;
-    protected $externalId;
+    protected string $deviceId;
+    protected array $payload;
+    protected bool $isDevelopment;
+    protected string $externalId;
 
-    public function __construct($deviceId = '', $payload = [ ], $isDevelopment = false)
+    public function __construct(string $deviceId = '', array $payload = [ ], bool $isDevelopment = false)
     {
         $this->deviceId = $deviceId;
         $this->payload = $payload;
         $this->isDevelopment = $isDevelopment;
     }
 
-    /**
-     * @return bool
-     */
-    public function isDevelopment()
+    public function isDevelopment(): bool
     {
         return $this->isDevelopment;
     }
 
-    /**
-     * @param bool $isDevelopment
-     */
-    public function setIsDevelopment($isDevelopment)
+    public function setIsDevelopment(bool $isDevelopment): void
     {
         $this->isDevelopment = $isDevelopment;
     }
 
-    /**
-     * @return array
-     */
-    public function getPayload()
+    public function getPayload(): array
     {
         return $this->payload;
     }
 
-    /**
-     * @param array $data
-     */
-    public function setPayload($data)
+    public function setPayload(array $data): void
     {
         $this->payload = $data;
     }
 
-
-    /**
-     * @param array $data
-     */
-    public function setPayloadAps($data)
+    public function setPayloadAps(array $data): void
     {
         $this->payload['aps'] = $data;
     }
 
-    /**
-     * @return string
-     */
-    public function getDeviceId()
+    public function getDeviceId(): string
     {
         return $this->deviceId;
     }
 
-    /**
-     * @param string $deviceId
-     */
-    public function setDeviceId($deviceId)
+    public function setDeviceId(string $deviceId): void
     {
         $this->deviceId = $deviceId;
     }
 
-    /**
-     * @return string
-     */
-    public function getExternalId()
+    public function getExternalId(): string
     {
         return $this->externalId;
     }
 
-    /**
-     * @param string $externalId
-     */
-    public function setExternalId($externalId)
+    public function setExternalId(string $externalId): void
     {
         $this->externalId = $externalId;
     }

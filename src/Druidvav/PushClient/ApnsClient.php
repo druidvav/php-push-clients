@@ -17,7 +17,7 @@ class ApnsClient
         $this->pemFile = $pemFile;
     }
 
-    public function send($registrationId, $data, $optional = [ ])
+    public function send($registrationId, $data, $optional = [ ]): bool
     {
         $payload = new Payload();
         $payload->setDeviceId($registrationId);
@@ -26,7 +26,7 @@ class ApnsClient
         return $this->sendPayload($payload);
     }
 
-    public function sendPayload(Payload $payload)
+    public function sendPayload(Payload $payload): bool
     {
         $ch = curl_init($this->getApiUrl($payload->isDevelopment()) . $payload->getDeviceId());
         curl_setopt($ch, CURLOPT_TIMEOUT, 15);
@@ -59,7 +59,7 @@ class ApnsClient
         }
     }
 
-    protected function getApiUrl($isDevelopment)
+    protected function getApiUrl($isDevelopment): string
     {
         $server = $isDevelopment ? 'api.development.push.apple.com' : 'api.push.apple.com';
         return "https://$server/3/device/";
