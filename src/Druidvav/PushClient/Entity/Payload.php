@@ -1,10 +1,12 @@
 <?php
 namespace Druidvav\PushClient\Entity;
 
+use Exception;
+
 class Payload
 {
     protected string $deviceId;
-    protected array $payload;
+    protected $payload;
     protected bool $isDevelopment;
     protected ?string $externalId;
 
@@ -30,8 +32,15 @@ class Payload
         return $this->payload;
     }
 
-    public function setPayload(array $data): void
+    /**
+     * @param array|string $data
+     * @throws Exception
+     */
+    public function setPayload($data): void
     {
+        if (!is_array($data) && !is_string($data)) {
+            throw new Exception('Invalid payload type');
+        }
         $this->payload = $data;
     }
 
