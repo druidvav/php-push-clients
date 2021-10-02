@@ -10,7 +10,7 @@ class Payload
     protected bool $isDevelopment;
     protected ?string $externalId;
 
-    public function __construct(string $deviceId = '', array $payload = [ ], bool $isDevelopment = false)
+    public function __construct(string $deviceId = '', $payload = [ ], bool $isDevelopment = false)
     {
         $this->deviceId = $deviceId;
         $this->payload = $payload;
@@ -27,7 +27,10 @@ class Payload
         $this->isDevelopment = $isDevelopment;
     }
 
-    public function getPayload(): array
+    /**
+     * @return array|string
+     */
+    public function getPayload()
     {
         return $this->payload;
     }
